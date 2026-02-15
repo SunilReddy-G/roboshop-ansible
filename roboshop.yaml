@@ -1,3 +1,4 @@
+# ansible-playbook -i localhost, -e instances=['mongodb', 'catalogue', 'redis', 'cart', 'mysql', 'shipping', 'rabbitmq', payment', 'frontend'] roboshop.yaml
 - name: create ec2 and r53 records
   hosts: all
   connection: local
@@ -28,7 +29,7 @@
     register: ec2_output
     when: action == "create"
   
-  - name: print the ec2_output
+  - name: print the output
     ansible.builtin.debug:
       msg: "{{ ec2_output }}"
     when: action == "create"
@@ -42,7 +43,7 @@
       ttl: 1
       value: "{{ item.instances[0].private_ip_address }}"
       wait: true
-    loop: "{{ ec2_output.results }}"
+    loop: "{{ ec2_output.results }}" # ist
     when: action == "create"
 
   - name: create r53 records
@@ -77,6 +78,7 @@
       region: "{{ region }}"
       filters:
         "tag:Name": "{{ item }}-{{ env }}"
+      wait: false
     loop: "{{ instances }}"
     when: action == "destroy"
     run_once: true
