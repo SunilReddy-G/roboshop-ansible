@@ -11,6 +11,7 @@
     - mongodb
     - catalogue
   tasks:
+    ### CREATE ###
   - name: create ec2 instance
     amazon.aws.ec2_instance:
       instance_type: "t3.micro"
@@ -57,6 +58,8 @@
     - item.item == "frontend"
     - action == "create"
 
+### DESTROY ###
+
   - name: delete r53 records
     amazon.aws.route53:
       state: absent
@@ -67,9 +70,12 @@
     loop: "{{ instances }}"
     when: action == "destroy"
 
-  - name: delete ec2 instance
+  - name: delete ec2 instances
     amazon.aws.ec2_instance:
       state: absent
-      Name: "{{ item }}-{{ env }}"
+      region: "{{ region }}"
+      filters:
+        "tag:Name": "{{ item }}-{{ env }}"
     loop: "{{ instances }}"
     when: action == "destroy"
+    run_once: true
