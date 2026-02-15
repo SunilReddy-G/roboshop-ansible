@@ -2,6 +2,7 @@
   hosts: all
   connection: local
   vars:
+    region: us-east-1
     sg_id: sg-028ddb0e8c0c3c494
     ami_id: ami-0220d79f3f480ecf5
     domain_name: virtualmall.store
