@@ -23,3 +23,7 @@
       name: mongod
       enabled: yes
       state: started
+  
+  - name: Enable NodeJS 20 module
+    shell: dnf module enable nodejs:20 -y
+    become: yes
