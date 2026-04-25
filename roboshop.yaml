@@ -1,5 +1,5 @@
 - name: create ec2 and r53 records
-  host: all
+  hosts: all
   Connection: local
   vars:
     sg_id: sg-0636457909cacb31e
@@ -10,7 +10,7 @@
     - catalogue
   task:
   - name: create ec2 instance
-  amazon.aws.ec2_instance:
+    amazon.aws.ec2_instance:
       instance_type: "t3.micro"
       security_group: "{{ sg_id }}"
       image_id: "{{ ami_id }}"
